@@ -2,9 +2,6 @@
   "name": "bughunts-challenge",
   "description": "BugHunts challenge simulation",
   "version": "1.0.0",
-  "dependencies": {
-    "bughunts-lang": "git+https://github.com/MagicSquare/bughunts-lang.git"
-  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-exec": "^0.4.6",
@@ -13,7 +10,7 @@
     "mocha": "^2.2.5",
     "should": "^7.0.1"
   },
- "main": "./lib/Challenge.js",
+ "main": "./lib/module.js",
   "engines": {
     "node": ">=0.10.0"
   },

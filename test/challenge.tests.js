@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should'),
-    Challenge = require('../lib/Challenge'),
+    Game = require('../lib/Game'),
     challengeTestData = require('./res/challenge_test'),
     challengeStoneData = require('./res/challenge_stone'),
     challenge0XTEST2Data = require('./res/challenge_0xTEST2');
@@ -15,9 +15,9 @@ var challenge0xTEST2 = null;
 describe('challenge', function () {
     describe('moveBug', function () {
         beforeEach(function(done) {
-            challenge = new Challenge(challengeTestData.hashTag, challengeTestData.map);
-            challengeStone = new Challenge(challengeStoneData.hashTag, challengeStoneData.map);
-            challenge0xTEST2 = new Challenge(challenge0XTEST2Data.hashTag, challenge0XTEST2Data.map);
+            challenge = new Game(challengeTestData.hashTag, challengeTestData.map);
+            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
+            challenge0xTEST2 = new Game(challenge0XTEST2Data.hashTag, challenge0XTEST2Data.map);
             done();
         });
 
@@ -148,13 +148,13 @@ describe('challenge', function () {
             // BOTTOM
             challengeStone.tryChallenge('FO FO RI FO FO').win.should.be.equal(false);
             // TOP
-            challengeStone = new Challenge(challengeStoneData.hashTag, challengeStoneData.map);
+            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
             challengeStone.tryChallenge('RI FO 4 LE FO 2 LE FO 2').win.should.be.equal(false);
             // RIGHT
-            challengeStone = new Challenge(challengeStoneData.hashTag, challengeStoneData.map);
+            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
             challengeStone.tryChallenge('RI FO 2 LE FO 2').win.should.be.equal(false);
             // LEFT
-            challengeStone = new Challenge(challengeStoneData.hashTag, challengeStoneData.map);
+            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
             challengeStone.tryChallenge('FO 4 RI FO 2 RI FO 2').win.should.be.equal(false);
 
             done();
@@ -164,13 +164,13 @@ describe('challenge', function () {
             // BOTTOM
             challengeStone.tryChallenge('FO FO LE BA BA').win.should.be.equal(false);
             // TOP
-            challengeStone = new Challenge(challengeStoneData.hashTag, challengeStoneData.map);
+            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
             challengeStone.tryChallenge('RI FO 4 LE FO 2 RI BA 2').win.should.be.equal(false);
             // RIGHT
-            challengeStone = new Challenge(challengeStoneData.hashTag, challengeStoneData.map);
+            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
             challengeStone.tryChallenge('RI FO 2 RI BA 2').win.should.be.equal(false);
             // LEFT
-            challengeStone = new Challenge(challengeStoneData.hashTag, challengeStoneData.map);
+            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
             challengeStone.tryChallenge('FO 4 RI FO 2 LE BA 2').win.should.be.equal(false);
             done();
         });
