@@ -10,7 +10,10 @@
     "mocha": "^2.2.5",
     "should": "^7.0.1"
   },
- "main": "./lib/module.js",
+  "dependencies": {
+    "bughunts-lang": "git+https://github.com/MagicSquare/bughunts-lang.git"
+  },
+  "main": "./lib/module.js",
   "engines": {
     "node": ">=0.10.0"
   },
