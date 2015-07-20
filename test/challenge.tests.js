@@ -94,43 +94,51 @@ describe('challenge', function () {
         });
 
         it('should make the bug move forward when instruction is FO', function (done) {
-            challenge.tryChallenge('FO');
+            var result = challenge.tryChallenge('FO');
             challenge.bug.pos.x.should.be.equal(1);
+            result.score.should.be.equal('0.00');
             done();
         });
 
         it('should make the bug move backward when instruction is BA', function (done) {
-            challenge.tryChallenge('FO 3 BA');
+            var result = challenge.tryChallenge('(FO) 3 BA');
             challenge.bug.pos.x.should.be.equal(2);
+            result.score.should.be.equal('0.00');
             done();
         });
 
         it('should make the bug turn left when instruction is LE', function (done) {
-            challenge.tryChallenge('LE');
+            var result = challenge.tryChallenge('LE');
             challenge.bug.dir.x.should.be.equal(challenge.DIR_TOP.x);
             challenge.bug.dir.y.should.be.equal(challenge.DIR_TOP.y);
+            result.score.should.be.equal('0.00');
             done();
         });
 
         it('should make the bug turn right when instruction is RI', function (done) {
-            challenge.tryChallenge('RI');
+            var result = challenge.tryChallenge('RI');
             challenge.bug.dir.x.should.be.equal(challenge.DIR_BOTTOM.x);
             challenge.bug.dir.y.should.be.equal(challenge.DIR_BOTTOM.y);
+            result.score.should.be.equal('0.00');
             done();
         });
 
         it('should win when the bug reaches the goal', function (done) {
-            challenge.tryChallenge('FO FO FO RI FO FO').win.should.be.equal(true);
+            var result = challenge.tryChallenge('FO FO FO RI FO FO');
+            result.win.should.be.equal(true);
+            result.score.should.be.equal('11.00');
             done();
         });
 
         it('should win when the bug reaches the goal (parameter version)', function (done) {
-            challenge.tryChallenge('FO 3 RI FO 2').win.should.be.equal(true);
+            var result = challenge.tryChallenge('(FO) 3 RI (FO) 2');
+            result.win.should.be.equal(true);
+            result.score.should.be.equal('10.00');
             done();
         });
 
         it('should win when the bug reaches the goal (case insensitive version)', function (done) {
-            challenge.tryChallenge('fO 3 RI Fo 2').win.should.be.equal(true);
+            challenge.tryChallenge('(fO) 3 RI (Fo) 2').win.should.be.equal(true);
             done();
         });
 
@@ -140,7 +148,7 @@ describe('challenge', function () {
         });
 
         it('should return number the score when the goal is reached', function (done) {
-            challenge.tryChallenge('FO FO FO RI FO FO').score.should.be.equal('333.33');
+            challenge.tryChallenge('FO FO FO RI FO FO').score.should.be.equal('11.00');
             done();
         });
 
@@ -149,13 +157,13 @@ describe('challenge', function () {
             challengeStone.tryChallenge('FO FO RI FO FO').win.should.be.equal(false);
             // TOP
             challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
-            challengeStone.tryChallenge('RI FO 4 LE FO 2 LE FO 2').win.should.be.equal(false);
+            challengeStone.tryChallenge('RI (FO) 4 LE (FO) 2 LE (FO) 2').win.should.be.equal(false);
             // RIGHT
             challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
-            challengeStone.tryChallenge('RI FO 2 LE FO 2').win.should.be.equal(false);
+            challengeStone.tryChallenge('RI (FO) 2 LE (FO) 2').win.should.be.equal(false);
             // LEFT
             challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
-            challengeStone.tryChallenge('FO 4 RI FO 2 RI FO 2').win.should.be.equal(false);
+            challengeStone.tryChallenge('(FO) 4 RI (FO) 2 RI (FO) 2').win.should.be.equal(false);
 
             done();
         });
@@ -165,28 +173,28 @@ describe('challenge', function () {
             challengeStone.tryChallenge('FO FO LE BA BA').win.should.be.equal(false);
             // TOP
             challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
-            challengeStone.tryChallenge('RI FO 4 LE FO 2 RI BA 2').win.should.be.equal(false);
+            challengeStone.tryChallenge('RI (FO) 4 LE (FO) 2 RI (BA) 2').win.should.be.equal(false);
             // RIGHT
             challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
-            challengeStone.tryChallenge('RI FO 2 RI BA 2').win.should.be.equal(false);
+            challengeStone.tryChallenge('RI (FO) 2 RI (BA) 2').win.should.be.equal(false);
             // LEFT
             challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
-            challengeStone.tryChallenge('FO 4 RI FO 2 LE BA 2').win.should.be.equal(false);
+            challengeStone.tryChallenge('(FO) 4 RI (FO) 2 LE (BA) 2').win.should.be.equal(false);
             done();
         });
 
         it('should loose when the bug hit a stone in challenge 0xTEST2', function (done) {
-            challenge0xTEST2.tryChallenge('RI FO 4 LE FO').win.should.be.equal(false);
+            challenge0xTEST2.tryChallenge('RI (FO) 4 LE FO').win.should.be.equal(false);
             done();
         });
 
         it('should return the actual instructions used', function (done) {
-            challenge.tryChallenge('FO FO 3 RI RI 5 LE LE 2 BA BA 2').instructions.join(';').should.be.equal('FO;FO;FO;FO;RI;RI;RI;RI;RI;RI;LE;LE;LE;BA;BA;BA');
+            challenge.tryChallenge('FO (FO) 3 RI (RI) 5 LE (LE) 2 BA (BA) 2').instructions.join(';').should.be.equal('FO;FO;FO;FO;RI;RI;RI;RI;RI;RI;LE;LE;LE;BA;BA;BA');
             done();
         });
 
         it('should stop when the bug hit a stone', function (done) {
-            challengeStone.tryChallenge('RI FO LE FO 3 RI FO').instructions.join(';').should.be.equal('RI;FO;LE;FO');
+            challengeStone.tryChallenge('RI FO LE (FO) 3 RI FO').instructions.join(';').should.be.equal('RI;FO;LE;FO');
             challengeStone.bug.pos.x.should.be.equal(1);
             challengeStone.bug.pos.y.should.be.equal(1);
             done();
