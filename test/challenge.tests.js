@@ -4,7 +4,8 @@ var should = require('should'),
     Game = require('../lib/Game'),
     challengeTestData = require('./res/challenge_test'),
     challengeStoneData = require('./res/challenge_stone'),
-    challenge0XTEST2Data = require('./res/challenge_0xTEST2');
+    challenge0XTEST2Data = require('./res/challenge_0xTEST2'),
+    challenge_capsule = require('./res/challenge_capsule');
 
 var map = null;
 var bug = null;
@@ -18,7 +19,8 @@ describe('challenge', function () {
             challenge = new Game(challengeTestData.hashTag, challengeTestData.map);
             challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
             challenge0xTEST2 = new Game(challenge0XTEST2Data.hashTag, challenge0XTEST2Data.map);
-            done();
+            challenge_capsule = new Game(challenge_capsule.hashTag, challenge_capsule.map, challenge_capsule.actors);
+                done();
         });
 
         it('should be able to make the bug move forward', function (done) {
@@ -202,6 +204,21 @@ describe('challenge', function () {
 
         it('should loose when the bug goes out of the map', function (done) {
             challengeStone.tryChallenge('BA').win.should.be.equal(false);
+            done();
+        });
+
+        it('should stop when the bug hit a web', function (done) {
+            challenge_capsule.tryChallenge('RI FO LE FO RI FO LE FO FO').instructions.join(';').should.be.equal('RI;FO;LE;FO;RI;FO;LE');
+            done();
+        });
+
+        it('should stop when the bug hit a missile launcher', function (done) {
+            challenge_capsule.tryChallenge('RI FO FO FO FO FO').instructions.join(';').should.be.equal('RI;FO');
+            done();
+        });
+
+        it('should destroy a web when triggering a missile with the right direction', function (done) {
+            challenge_capsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
             done();
         });
     })
