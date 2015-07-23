@@ -1,17 +1,15 @@
 var Point = require('../../lib/point'),
-    Game = require('../../lib/Game');
+    Game = require('../../lib/Game'),
+    Map = require('../../lib/Map');
 
-exports.map = [
+var squares = [
     ['l','1','o','o','o'],
     ['o','o','o','s','o'],
     ['2','o','3','g','s'],
     ['o','o','o','s','o'],
     ['o','o','o','o','o']
 ];
-
-exports.hashTag = '#0x003D';
-
-exports.actors = [
+var actors = [
     {
         type: 'l',
         pos: new Point(0, 0),
@@ -32,3 +30,6 @@ exports.actors = [
         pos: new Point(2, 2)
     }
 ];
+
+exports.map = new Map(5, 5, squares, actors);
+exports.hashTag = '#0x003D';

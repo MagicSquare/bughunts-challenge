@@ -1,4 +1,6 @@
-exports.map = [
+var Map = require('../../lib/Map');
+
+var squares = [
     [ 'l', 'o', 'o', 's', 'o', 'o', 'o' ],
     [ 's', 's', 'o', 'o', 'o', 'o', 'o' ],
     [ 'o', 'o', 'o', 'o', 's', 's', 'o' ],
@@ -7,4 +9,5 @@ exports.map = [
     [ 'o', 's', 'o', 'o', 'o', 'o', 'o' ]
 ];
 
+exports.map = new Map(7, 6, squares);
 exports.hashTag = '#0xTEST2';

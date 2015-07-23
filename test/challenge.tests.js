@@ -9,10 +9,11 @@ var should = require('should'),
 
 var map = null;
 var bug = null;
+
 var challenge = new Game(challengeTestData.hashTag, challengeTestData.map),
     challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map),
     challenge0xTEST2 = new Game(challenge0XTEST2Data.hashTag, challenge0XTEST2Data.map),
-    challengeCapsule = new Game(challengeCapsuleData.hashTag, challengeCapsuleData.map, challengeCapsuleData.actors);
+    challengeCapsule = new Game(challengeCapsuleData.hashTag, challengeCapsuleData.map);
 
 describe('challenge', function () {
     describe('moveBug', function () {
@@ -219,22 +220,22 @@ describe('challenge', function () {
         });
 
         it('should destroy a web when triggering a missile with the right direction', function (done) {
-            challengeCapsule.map[2][2].should.be.equal('3');
+            challengeCapsule.map.get(2, 2).should.be.equal('3');
             challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
-            challengeCapsule.map[2][2].should.be.equal('o');
+            challengeCapsule.map.get(2, 2).should.be.equal('o');
             done();
         });
 
         it('should destroy a web when triggering a missile with the right direction and exec challenge multiple times', function (done) {
-            challengeCapsule.map[2][2].should.be.equal('3');
+            challengeCapsule.map.get(2, 2).should.be.equal('3');
             challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
-            challengeCapsule.map[2][2].should.be.equal('o');
+            challengeCapsule.map.get(2, 2).should.be.equal('o');
 
             challengeCapsule.restart();
 
-            challengeCapsule.map[2][2].should.be.equal('3');
+            challengeCapsule.map.get(2, 2).should.be.equal('3');
             challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
-            challengeCapsule.map[2][2].should.be.equal('o');
+            challengeCapsule.map.get(2, 2).should.be.equal('o');
             done();
         });
     })
