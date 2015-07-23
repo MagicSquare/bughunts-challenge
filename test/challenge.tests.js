@@ -5,22 +5,23 @@ var should = require('should'),
     challengeTestData = require('./res/challenge_test'),
     challengeStoneData = require('./res/challenge_stone'),
     challenge0XTEST2Data = require('./res/challenge_0xTEST2'),
-    challenge_capsule = require('./res/challenge_capsule');
+    challengeCapsuleData = require('./res/challenge_capsule');
 
 var map = null;
 var bug = null;
-var challenge = null;
-var challengeStone = null;
-var challenge0xTEST2 = null;
+var challenge = new Game(challengeTestData.hashTag, challengeTestData.map),
+    challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map),
+    challenge0xTEST2 = new Game(challenge0XTEST2Data.hashTag, challenge0XTEST2Data.map),
+    challengeCapsule = new Game(challengeCapsuleData.hashTag, challengeCapsuleData.map, challengeCapsuleData.actors);
 
 describe('challenge', function () {
     describe('moveBug', function () {
         beforeEach(function(done) {
-            challenge = new Game(challengeTestData.hashTag, challengeTestData.map);
-            challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map);
-            challenge0xTEST2 = new Game(challenge0XTEST2Data.hashTag, challenge0XTEST2Data.map);
-            challenge_capsule = new Game(challenge_capsule.hashTag, challenge_capsule.map, challenge_capsule.actors);
-                done();
+            challenge.restart();
+            challengeStone.restart();
+            challenge0xTEST2.restart();
+            challengeCapsule.restart();
+            done();
         });
 
         it('should be able to make the bug move forward', function (done) {
@@ -208,17 +209,32 @@ describe('challenge', function () {
         });
 
         it('should stop when the bug hit a web', function (done) {
-            challenge_capsule.tryChallenge('RI FO LE FO RI FO LE FO FO').instructions.join(';').should.be.equal('RI;FO;LE;FO;RI;FO;LE');
+            challengeCapsule.tryChallenge('RI FO LE FO RI FO LE FO FO').instructions.join(';').should.be.equal('RI;FO;LE;FO;RI;FO;LE');
             done();
         });
 
         it('should stop when the bug hit a missile launcher', function (done) {
-            challenge_capsule.tryChallenge('RI FO FO FO FO FO').instructions.join(';').should.be.equal('RI;FO');
+            challengeCapsule.tryChallenge('RI FO FO FO FO FO').instructions.join(';').should.be.equal('RI;FO');
             done();
         });
 
         it('should destroy a web when triggering a missile with the right direction', function (done) {
-            challenge_capsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
+            challengeCapsule.map[2][2].should.be.equal('3');
+            challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
+            challengeCapsule.map[2][2].should.be.equal('o');
+            done();
+        });
+
+        it('should destroy a web when triggering a missile with the right direction and exec challenge multiple times', function (done) {
+            challengeCapsule.map[2][2].should.be.equal('3');
+            challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
+            challengeCapsule.map[2][2].should.be.equal('o');
+
+            challengeCapsule.restart();
+
+            challengeCapsule.map[2][2].should.be.equal('3');
+            challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
+            challengeCapsule.map[2][2].should.be.equal('o');
             done();
         });
     })
