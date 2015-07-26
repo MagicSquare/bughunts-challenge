@@ -25,6 +25,14 @@ describe('challenge', function () {
             done();
         });
 
+        it('should clone the map', function (done){
+            var map = challengeTestData.map;
+            var newMap = map.clone();
+            var bug = newMap.actors[0];
+            bug.dir.invert().mul(1, -1);
+            map.actors[0].should.not.be.eql(bug);
+            done();
+        });
         it('should be able to make the bug move forward', function (done) {
             challenge.moveBugForward(1);
             challenge.bug.pos.x.should.be.equal(1);
@@ -49,7 +57,6 @@ describe('challenge', function () {
             challenge.bug.pos.x.should.be.equal(3);
             done();
         });
-
         it('should be able to make the bug move backward', function (done) {
             challenge.bug.dir.set(challenge.DIR_LEFT);
             challenge.moveBugBackward(1);
