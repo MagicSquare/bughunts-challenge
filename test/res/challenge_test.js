@@ -1,4 +1,4 @@
-var Map = require('../../lib/Map');
+var Map = require('../../lib/map');
 
 var squares = [
     ['l','o','o','o','o'],

@@ -107,14 +107,14 @@ describe('challenge', function () {
         it('should make the bug move forward when instruction is FO', function (done) {
             var result = challenge.tryChallenge('FO');
             challenge.bug.pos.x.should.be.equal(1);
-            result.score.should.be.equal('0.00');
+            result.score.should.be.equal(0);
             done();
         });
 
         it('should make the bug move backward when instruction is BA', function (done) {
             var result = challenge.tryChallenge('(FO) 3 BA');
             challenge.bug.pos.x.should.be.equal(2);
-            result.score.should.be.equal('0.00');
+            result.score.should.be.equal(0);
             done();
         });
 
@@ -122,7 +122,7 @@ describe('challenge', function () {
             var result = challenge.tryChallenge('LE');
             challenge.bug.dir.x.should.be.equal(challenge.DIR_TOP.x);
             challenge.bug.dir.y.should.be.equal(challenge.DIR_TOP.y);
-            result.score.should.be.equal('0.00');
+            result.score.should.be.equal(0);
             done();
         });
 
@@ -130,21 +130,21 @@ describe('challenge', function () {
             var result = challenge.tryChallenge('RI');
             challenge.bug.dir.x.should.be.equal(challenge.DIR_BOTTOM.x);
             challenge.bug.dir.y.should.be.equal(challenge.DIR_BOTTOM.y);
-            result.score.should.be.equal('0.00');
+            result.score.should.be.equal(0);
             done();
         });
 
         it('should win when the bug reaches the goal', function (done) {
             var result = challenge.tryChallenge('FO FO FO RI FO FO');
             result.win.should.be.equal(true);
-            result.score.should.be.equal('11.00');
+            result.score.should.be.equal(11);
             done();
         });
 
         it('should win when the bug reaches the goal (parameter version)', function (done) {
             var result = challenge.tryChallenge('(FO) 3 RI (FO) 2');
             result.win.should.be.equal(true);
-            result.score.should.be.equal('10.00');
+            result.score.should.be.equal(10);
             done();
         });
 
@@ -159,7 +159,7 @@ describe('challenge', function () {
         });
 
         it('should return number the score when the goal is reached', function (done) {
-            challenge.tryChallenge('FO FO FO RI FO FO').score.should.be.equal('11.00');
+            challenge.tryChallenge('FO FO FO RI FO FO').score.should.be.equal(11);
             done();
         });
 

@@ -1,6 +1,6 @@
 var Point = require('../../lib/point'),
     Game = require('../../lib/Game'),
-    Map = require('../../lib/Map');
+    Map = require('../../lib/map');
 
 var squares = [
     ['l','1','o','o','o'],
