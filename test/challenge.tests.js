@@ -5,7 +5,8 @@ var should = require('should'),
     challengeTestData = require('./res/challenge_test'),
     challengeStoneData = require('./res/challenge_stone'),
     challenge0XTEST2Data = require('./res/challenge_0xTEST2'),
-    challengeCapsuleData = require('./res/challenge_capsule');
+    challengeCapsuleData = require('./res/challenge_capsule'),
+    challengeRobotData = require('./res/challenge_robot');
 
 var map = null;
 var bug = null;
@@ -13,7 +14,8 @@ var bug = null;
 var challenge = new Game(challengeTestData.hashTag, challengeTestData.map),
     challengeStone = new Game(challengeStoneData.hashTag, challengeStoneData.map),
     challenge0xTEST2 = new Game(challenge0XTEST2Data.hashTag, challenge0XTEST2Data.map),
-    challengeCapsule = new Game(challengeCapsuleData.hashTag, challengeCapsuleData.map);
+    challengeCapsule = new Game(challengeCapsuleData.hashTag, challengeCapsuleData.map),
+    challengeRobot = new Game(challengeRobotData.hashTag, challengeRobotData.map);
 
 describe('challenge', function () {
     describe('moveBug', function () {
@@ -22,6 +24,7 @@ describe('challenge', function () {
             challengeStone.restart();
             challenge0xTEST2.restart();
             challengeCapsule.restart();
+            challengeRobot.restart();
             done();
         });
 
@@ -237,12 +240,30 @@ describe('challenge', function () {
             challengeCapsule.map.get(2, 2).should.be.equal('3');
             challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
             challengeCapsule.map.get(2, 2).should.be.equal('o');
-
             challengeCapsule.restart();
 
             challengeCapsule.map.get(2, 2).should.be.equal('3');
             challengeCapsule.tryChallenge('FO RI FO FO LE FO FO').win.should.be.equal(true);
             challengeCapsule.map.get(2, 2).should.be.equal('o');
+            done();
+        });
+
+        it('should move robots according to their default move', function (done) {
+            challengeRobot.tryChallenge('FO BA FO BA FO BA');
+            challengeRobot.robot.pos.y.should.be.equal(0);
+
+            done();
+        });
+
+        it('should stop the ladybug when colliding with a robot', function (done) {
+            challengeRobot.tryChallenge('FO FO FO FO FO').win.should.be.equal(false);
+            challengeRobot.bug.pos.x.should.be.equal(2);
+
+            done();
+        });
+
+        it('shouldnt stop the ladybug when colliding with a robot original position', function (done) {
+            challengeRobot.tryChallenge('RI (FO) 3 LE (FO) 3 LE (FO) 3 RI (FO) 2').win.should.be.equal(true);
             done();
         });
     })
